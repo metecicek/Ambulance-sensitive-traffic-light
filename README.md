@@ -1,1 +1,1 @@
-# Ambulance-sensitive-traffic-light with arduino
+# Ambulance sensitive traffic light with arduino
