@@ -1,0 +1,158 @@
+/* Sensör high olduðu sürece daima yeþil yanar. sensör low olduðu gibi de sistem en son hangi ýþýkta ve hangi saniyede kaldýysa aynen oradan devam eder.*/
+
+ #define yesil 4 
+ #define sari 5 
+ #define kirmizi 6 
+ #define sensor 7 
+  
+  
+ int ambulans_algilandi_mi(); 
+ void yesil_yansin(); 
+ void kirmizi_yansin(); 
+ void sari_yansin(); 
+  
+  
+ int kirmizi_isik_zamani = 3;// hengi ýþýk kaç saniye yanacaksa buraya yazýn. 
+ int sari_isik_zamani = 3;//sarý ýþýk 3 saniye yanacak 
+ int yesil_isik_zamani = 3;// yeþil ýþýk da 3 saniye yanacak 
+ int turn = 0; 
+ int bekle =5;//"bekle" yazan deðeri deðiþtirerek yeþil ýþýðý istediðin kadar bekletirsin.Ben 5 saniye koydum.
+  
+ void setup() { 
+  
+   pinMode(yesil, OUTPUT); 
+   pinMode(sari, OUTPUT); 
+   pinMode(kirmizi, OUTPUT); 
+   pinMode(sensor, INPUT); 
+ } 
+  
+   
+  void loop() {  
+    
+    kirmizi_yansin();//istediðin þekilde kendin düzenleyebilirsin renkleri.
+  
+    sari_yansin();  
+    
+    yesil_yansin();  
+  
+    
+  } 
+
+  
+  
+ int ambulans_algilandi_mi() 
+ { 
+   if (digitalRead(sensor)) 
+   { 
+     delay(60); 
+     return  digitalRead(sensor); 
+   } 
+  
+ } 
+  
+ void yesil_yansin() 
+ { 
+   digitalWrite(yesil, HIGH); 
+   digitalWrite(sari, LOW); 
+   digitalWrite(kirmizi, LOW); 
+  
+   for (int x = 0; x < yesil_isik_zamani * 1000; x++) 
+   { 
+     delay(1); 
+     while (ambulans_algilandi_mi()) 
+  
+     { digitalWrite(yesil, HIGH); 
+       digitalWrite(sari, LOW); 
+       digitalWrite(kirmizi, LOW); 
+       
+      turn=1; 
+  
+     } 
+  
+     if (turn == 1) 
+     { 
+    delay(bekle*1000);
+   digitalWrite(yesil, HIGH); 
+   digitalWrite(sari, LOW); 
+   digitalWrite(kirmizi, LOW); 
+  
+       turn = 0; 
+  
+     } 
+   } 
+  
+ } 
+ void sari_yansin() 
+ { 
+   digitalWrite(yesil, LOW); 
+   digitalWrite(sari, HIGH); 
+   digitalWrite(kirmizi, LOW); 
+  
+   for (int x = 0; x < sari_isik_zamani * 1000; x++) 
+   { 
+     delay(1); 
+     while (ambulans_algilandi_mi()) { 
+       digitalWrite(yesil, HIGH); 
+       digitalWrite(sari, LOW); 
+       digitalWrite(kirmizi, LOW); 
+       
+       turn = 1; 
+  
+     } 
+  
+     if (turn == 1) 
+     { 
+     delay(bekle*1000);
+   digitalWrite(yesil, LOW); 
+   digitalWrite(sari, HIGH); 
+   digitalWrite(kirmizi, LOW); 
+  
+       turn = 0; 
+  
+     } 
+   } 
+  
+ } 
+  
+  
+ void kirmizi_yansin() 
+ { 
+   digitalWrite(yesil, LOW); 
+   digitalWrite(sari, LOW); 
+   digitalWrite(kirmizi, HIGH); 
+  
+   for (int x = 0; x < kirmizi_isik_zamani * 1000; x++) 
+   { 
+     delay(1); 
+     while (ambulans_algilandi_mi()) { 
+       digitalWrite(yesil, HIGH); 
+       digitalWrite(sari, LOW); 
+       digitalWrite(kirmizi, LOW); 
+       
+       turn = 1; 
+  
+     } 
+  
+     if (turn == 1) 
+     { 
+        delay(bekle*1000);  
+       digitalWrite(yesil, LOW); 
+       digitalWrite(sari, LOW); 
+       digitalWrite(kirmizi, HIGH); 
+       
+       turn = 0; 
+  
+     } 
+   } 
+  
+ } 
+  
+  
+  
+  
+  
+
+
+
+  
+
